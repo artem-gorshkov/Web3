@@ -10,10 +10,7 @@ import javax.sql.DataSource;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.*;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @ManagedBean(name = "points")
@@ -36,12 +33,52 @@ public class PointsBean implements Serializable {
         try {
             Context context = new InitialContext();
             ds = (DataSource) context.lookup("java:jboss/datasources/oracle");
+            updatePoints();
         } catch (NamingException e) {
             e.printStackTrace();
+        } catch (SQLException ee) {
+            ee.printStackTrace();
         }
     }
 
-    public void addPoint(PointBean point) throws SQLException {
+    public void addPoint() throws SQLException {
+        double Y = Double.parseDouble(y.toString().substring(0, Math.min(10, y.toString().length())));
+        if (x < 0) {
+            if (Y >= 0) {
+                if (Y < x + r / 2) {
+                    result = "В зоне";
+                } else {
+                    result = " Не в зоне";
+                }
+            } else {
+                if (Math.pow(x, 2) + Math.pow(Y, 2) <= Math.pow(r / 2, 2)) {
+                    result = "В зоне";
+                } else {
+                    result = " Не в зоне";
+                }
+            }
+        } else {
+            if (Y > 0) {
+                result = " Не в зоне";
+            } else {
+                if (x <= r && Y >= -r / 2) {
+                    result = "В зоне";
+                } else {
+                    result = " Не в зоне";
+                }
+            }
+        }
+        unique = UUID.randomUUID().toString();
+        PointBean point = new PointBean(x, y, r, result, unique);
+        try {
+            PointBean last = data.getFirst();
+            if (!last.equals(point)) //add if not reload page
+                data.addFirst(point);
+        } catch (NoSuchElementException e) {
+            data.addFirst(point);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
         if (ds == null) throw new SQLException("No data source");
         Connection conn = ds.getConnection();
         if (conn == null) throw new SQLException("No connection");
@@ -64,7 +101,6 @@ public class PointsBean implements Serializable {
             }
         } finally {
             conn.close();
-            data.add(point);
         }
     }
 

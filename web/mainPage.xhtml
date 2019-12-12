@@ -23,9 +23,9 @@
     <canvas id="canvas" width="500" height="500" style="margin: 1% auto;"/>
     <div id="checkedR"><br/><br/></div>
     <h:form id="canvasForm">
-        <h:inputHidden id="x_canv" value="#{point.x}"/>
-        <h:inputHidden id="y_canv" value="#{point.y}"/>
-        <h:inputHidden id="r_canv" value="#{point.r}"/>
+        <h:inputHidden id="x_canv" value="#{points.x}"/>
+        <h:inputHidden id="y_canv" value="#{points.y}"/>
+        <h:inputHidden id="r_canv" value="#{points.r}"/>
         <h:commandButton action="#{point.addPoint}" rendered="false" type="submit"/>
     </h:form>
     <h:form id="form" style="margin:auto;">
@@ -41,18 +41,18 @@
                              max="4"
                              stepPercent="0.1"
                              style="margin: 0 10px"
-                             value="#{point.x}">
+                             value="#{points.x}">
             </ace:sliderEntry>
             <h:message for="x_form" errorClass="error"/>
 
             <h:outputLabel value="Изменение Y:" for="y_form"/>
-            <h:inputText id="y_form" value="#{point.y}" required="true">
+            <h:inputText id="y_form" value="#{points.y}" required="true">
                 <f:validateDoubleRange minimum="-3" maximum="3"/>
             </h:inputText>
             <h:message for="y_form" errorClass="error"/>
 
             <h:outputLabel value="Изменение R:" for="r_form"/>
-            <h:selectOneRadio id="r_form" value="#{point.r}" required="true" size="3">
+            <h:selectOneRadio id="r_form" value="#{points.r}" required="true" size="3">
                 <f:selectItem itemValue="1" itemLabel="1"/>
                 <f:selectItem itemValue="1.5" itemLabel="1.5"/>
                 <f:selectItem itemValue="2" itemLabel="2"/>
@@ -61,8 +61,9 @@
             </h:selectOneRadio>
             <h:message for="r_form" errorClass="error"/>
         </h:panelGrid>
+
         <h:panelGrid columns="2" style="margin: auto">
-            <h:commandButton action="#{point.addPoint}" value="Отправить" type="submit"/>
+            <h:commandButton action="#{points.addPoint}" value="Отправить" type="submit"/>
             <h:button style="margin-left: 3%" outcome="goBack" value="Вернуться"/>
         </h:panelGrid>
 

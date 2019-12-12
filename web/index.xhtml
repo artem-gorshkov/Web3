@@ -5,27 +5,31 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-<h:head xmlns:h="http://xmlns.jcp.org/jsf/html" class="topmenu">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF8" />
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF8"/>
     <title>Lab3</title>
-    <h:outputStylesheet library="css" name="reset.css"  />
-    <h:outputStylesheet library="css" name="style.css"  />
-    <h:outputScript library="javascript" name="time.js" />
+    <h:outputStylesheet library="css" name="reset.css"/>
+    <h:outputStylesheet library="css" name="style.css"/>
+    <script type="text/javascript">
+        window.onload = function () {
+            let now = new Date();
+            let clock = document.getElementById("time");
+            clock.innerHTML = now.toLocaleTimeString();
+            setInterval(function () {
+                now = new Date();
+                clock.innerHTML = now.toLocaleTimeString();
+            }, 5000);
+        };
+    </script>
 </h:head>
-<h:body>
-    <table>
-        <tr>
-            <td>
-                <div class="Header bold">
-                    <h1>Лабораторная работа №3 по <span class="Pip"> Веб-программированию</span></h1>
-                    <h2>Вариант №35253</h2>
-                    <h3>Выполнил: Горшков Артем Владимирович</h3>
-                    <h4>Группа: P3211</h4>
-                </div>
-            </td>
-        </tr>
-    </table>
-    <div id="time"></div>
-    <h:button outcome="mainPage.xhtml" value="Перейти на основную страницу"/>
+<h:body style="background: url('/resources/image/background.png') white; text-align: center; align-items: center; margin-top: 3%">
+    <div class="Header bold">
+        <h1>Лабораторная работа №3 по <span class="Pip"> Веб-программированию</span></h1>
+        <h2>Вариант №35253</h2>
+        <h3>Выполнил: Горшков Артем Владимирович</h3>
+        <h4>Группа: P3211</h4>
+    </div>
+    <div id="time" style="font-family: Chandas, serif; font-size: 26pt; color: #45688E; margin-top: 3%"></div>
+    <h:button style="margin-top: 3%" outcome="goMainPage" value="Перейти на основную страницу"/>
 </h:body>
 </html>

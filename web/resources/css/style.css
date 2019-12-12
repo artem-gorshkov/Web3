@@ -1,42 +1,8 @@
-body {
-    background: url("../img/background.png") white;
-    font-family: monospace;
-    color: black;
-}
-
-table {
-    width: 100%;
+.answer td {
+    border: 2px solid black;
     text-align: center;
     font-family: monospace;
     font-size: 14pt;
-}
-
-img {
-    vertical-align: top;
-    margin: 10px 0 0 0;
-}
-
-.form {
-    margin-top: 1%;
-}
-
-.form p {
-    margin-bottom: 2px;
-}
-
-.answer {
-    background: #5E81A8;
-    width: 60%;
-    table-layout: auto;
-    margin: 10px 0 10px 20%;
-}
-
-.word-break {
-    word-break: break-all;
-}
-
-.answer td {
-    border: 2px solid black;
 }
 
 .Pip:before {
@@ -80,14 +46,14 @@ img {
     background: #45688E;
 }
 
-[type="submit"] {
-    margin-top: 1%;
-}
-
 .button {
     background-color: transparent; color: black;
 }
 
 .active {
     color: #45688E;
+}
+.error {
+    font-family: monospace;
+    color: red;
 }

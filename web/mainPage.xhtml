@@ -5,71 +5,47 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:ace="http://www.icefaces.org/icefaces/components">
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF8"/>
     <title>Lab3</title>
     <h:outputStylesheet library="css" name="reset.css"/>
     <h:outputStylesheet library="css" name="style.css"/>
+    <h:outputScript library="javascript" name="canvasEvent.js" target="body"/>
 </h:head>
-<h:body style="background: url('/resources/image/background.png') white; text-align: center; margin: auto;">
+<h:body id="body">
     <div class="Header bold">
         <h1>Лабораторная работа №3 по <span class="Pip"> Веб-программированию</span></h1>
         <h2>Вариант №35253</h2>
         <h3>Выполнил: Горшков Артем Владимирович</h3>
         <h4>Группа: P3211</h4>
+        <h:button style="margin-top: 1%" outcome="goBack" value="На главную"/>
     </div>
-    <canvas id="canvas" width="500" height="500" style="margin: 1% auto;"/>
+    <h:form id="hiddenForm" style="display: none">
+        <h:inputHidden id="x_canv" value="${points.x}"/>
+        <h:inputHidden id="y_canv" value="${points.y}"/>
+        <h:inputHidden id="r_canv" value="${points.r}"/>
+        <h:commandButton id="submitCanvas" action="#{points.addPoint}">
+            <f:ajax event="click" execute="@form" render="table history"/>
+        </h:commandButton>
+    </h:form>
+    <canvas id="canvas"
+            width="500" height="500"
+            style="margin: 1% auto;"
+            onclick="clickOnCanv()"/>
     <div id="checkedR"><br/><br/></div>
-    <h:form id="canvasForm">
-        <h:inputHidden id="x_canv" value="#{points.x}"/>
-        <h:inputHidden id="y_canv" value="#{points.y}"/>
-        <h:inputHidden id="r_canv" value="#{points.r}"/>
-        <h:commandButton action="#{point.addPoint}" rendered="false" type="submit"/>
+    <h:form id="form">
+        <h:selectOneRadio id="r" value="#{points.r}"
+                          required="true" requiredMessage="Укажите R"
+                          onchange="newRad()">
+            <f:selectItem itemValue="1" itemLabel="1"/>
+            <f:selectItem itemValue="1.5" itemLabel="1.5"/>
+            <f:selectItem itemValue="2" itemLabel="2"/>
+            <f:selectItem itemValue="2.5" itemLabel="2.5"/>
+            <f:selectItem itemValue="3" itemLabel="3"/>
+        </h:selectOneRadio>
     </h:form>
-    <h:form id="form" style="margin:auto;">
-        <h:panelGrid columns="3" bgcolor="#5E81A8"
-                     style="margin: 1% auto; text-align: center;font-family: monospace; font-size: 14pt;">
-
-            <h:outputLabel value="Изменение X:" for="x_form"/>
-            <ace:sliderEntry id="x_form"
-                             axis="x"
-                             clickableRail="false"
-                             length="150"
-                             min="-4"
-                             max="4"
-                             stepPercent="0.1"
-                             style="margin: 0 10px"
-                             value="#{points.x}">
-            </ace:sliderEntry>
-            <h:message for="x_form" errorClass="error"/>
-
-            <h:outputLabel value="Изменение Y:" for="y_form"/>
-            <h:inputText id="y_form" value="#{points.y}" required="true">
-                <f:validateDoubleRange minimum="-3" maximum="3"/>
-            </h:inputText>
-            <h:message for="y_form" errorClass="error"/>
-
-            <h:outputLabel value="Изменение R:" for="r_form"/>
-            <h:selectOneRadio id="r_form" value="#{points.r}" required="true" size="3">
-                <f:selectItem itemValue="1" itemLabel="1"/>
-                <f:selectItem itemValue="1.5" itemLabel="1.5"/>
-                <f:selectItem itemValue="2" itemLabel="2"/>
-                <f:selectItem itemValue="2.5" itemLabel="2.5"/>
-                <f:selectItem itemValue="3" itemLabel="3"/>
-            </h:selectOneRadio>
-            <h:message for="r_form" errorClass="error"/>
-        </h:panelGrid>
-
-        <h:panelGrid columns="2" style="margin: auto">
-            <h:commandButton action="#{points.addPoint}" value="Отправить" type="submit"/>
-            <h:button style="margin-left: 3%" outcome="goBack" value="Вернуться"/>
-        </h:panelGrid>
-
-    </h:form>
-    <h:dataTable styleClass="answer" value="#{points.data}" var="point" bgcolor="#5E81A8"
-                 style="width:60%; table-layout: auto; margin: 2% auto;" rendered="#{points.size != 0}">
+    <h:dataTable id="table" value="#{points.data}" var="point">
         <h:column>
             <f:facet name="header">X</f:facet>
             #{point.x}
@@ -89,8 +65,6 @@
             #{point.result}
         </h:column>
     </h:dataTable>
-    <h:outputText id="history" value="#{points.JSON}" rendered="false"/>
-
-    <h:outputScript library="javascript" name="paintPlot.js"/>
+    <h:outputText id="history" value="#{points.pointJSON()}"/>
 </h:body>
 </html>

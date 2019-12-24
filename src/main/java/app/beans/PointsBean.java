@@ -1,5 +1,7 @@
 package app.beans;
 
+import app.model.Point;
+
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -9,14 +11,20 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.NoSuchElementException;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @ManagedBean(name = "points")
 @SessionScoped
 public class PointsBean implements Serializable {
-    private Deque<PointBean> data;
+    private Deque<Point> data;
     private int size;
 
     private double x;
@@ -33,16 +41,16 @@ public class PointsBean implements Serializable {
         try {
             Context context = new InitialContext();
             ds = (DataSource) context.lookup("java:jboss/datasources/oracle");
-            updatePoints();
+//            updatePoints();
         } catch (NamingException e) {
             e.printStackTrace();
-        } catch (SQLException ee) {
-            ee.printStackTrace();
+//        } catch (SQLException ee) {
+//            ee.printStackTrace();
         }
     }
 
     public void addPoint() throws SQLException {
-        double Y = Double.parseDouble(y.toString().substring(0, Math.min(10, y.toString().length())));
+        double Y = Double.parseDouble(y.toString().substring(0, Math.min(10, y.toString().length()))); //for compare with x and r
         if (x < 0) {
             if (Y >= 0) {
                 if (Y < x + r / 2) {
@@ -69,9 +77,9 @@ public class PointsBean implements Serializable {
             }
         }
         unique = UUID.randomUUID().toString();
-        PointBean point = new PointBean(x, y, r, result, unique);
+        Point point = new Point(x, y, r, result, unique);
         try {
-            PointBean last = data.getFirst();
+            Point last = data.getFirst();
             if (!last.equals(point)) //add if not reload page
                 data.addFirst(point);
         } catch (NoSuchElementException e) {
@@ -79,29 +87,30 @@ public class PointsBean implements Serializable {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        if (ds == null) throw new SQLException("No data source");
-        Connection conn = ds.getConnection();
-        if (conn == null) throw new SQLException("No connection");
-
-        try {
-            conn.setAutoCommit(false);
-            boolean committed = false;
-            try {
-                PreparedStatement newpoint = conn.prepareStatement("INSERT INTO points VALUES (?,?,?,?,?)");
-                newpoint.setString(1, point.getUnique());
-                newpoint.setDouble(2, point.getX());
-                newpoint.setBigDecimal(3, point.getY());
-                newpoint.setDouble(4, point.getR());
-                newpoint.setString(5, point.getResult());
-                newpoint.executeUpdate();
-                conn.commit();
-                committed = true;
-            } finally {
-                if (!committed) conn.rollback();
-            }
-        } finally {
-            conn.close();
-        }
+//
+//        if (ds == null) throw new SQLException("No data source");
+//        Connection conn = ds.getConnection();
+//        if (conn == null) throw new SQLException("No connection");
+//
+//        try {
+//            conn.setAutoCommit(false);
+//            boolean committed = false;
+//            try {
+//                PreparedStatement newpoint = conn.prepareStatement("INSERT INTO points VALUES (?,?,?,?,?)");
+//                newpoint.setString(1, point.getUnique());
+//                newpoint.setDouble(2, point.getX());
+//                newpoint.setBigDecimal(3, point.getY());
+//                newpoint.setDouble(4, point.getR());
+//                newpoint.setString(5, point.getResult());
+//                newpoint.executeUpdate();
+//                conn.commit();
+//                committed = true;
+//            } finally {
+//                if (!committed) conn.rollback();
+//            }
+//        } finally {
+//            conn.close();
+//        }
     }
 
     @Deprecated
@@ -114,7 +123,7 @@ public class PointsBean implements Serializable {
             Statement usersPoints = conn.createStatement();
             ResultSet result = usersPoints.executeQuery("SELECT id, x, y, r, result  from points");
             while (result.next()) {
-                data.add(new PointBean(
+                data.add(new Point(
                         result.getDouble("x"),
                         result.getBigDecimal("y"),
                         result.getDouble("r"),
@@ -128,17 +137,17 @@ public class PointsBean implements Serializable {
     }
 
 
-    public Deque<PointBean> getData() {
+    public Deque<Point> getData() {
         return data;
     }
 
-    public void setData(Deque<PointBean> points) {
+    public void setData(Deque<Point> points) {
         this.data = points;
     }
 
-    public String JSON() {
+    public String pointJSON() {
         return '[' + data.parallelStream()
-                .map(point -> String.format("{\"x\": %s, \"y\": %s, \"r\": %s, \"result\": %s}",
+                .map(point -> String.format("{\"x\": %s, \"y\": %s}",
                         point.getX(), point.getY(), point.getR(), point.getResult()))
                 .collect(Collectors.joining(", ")) + ']';
     }
@@ -190,4 +199,5 @@ public class PointsBean implements Serializable {
     public void setUnique(String unique) {
         this.unique = unique;
     }
+
 }

@@ -21,14 +21,5 @@
         <managed-bean-name>points</managed-bean-name>
         <managed-bean-class>app.beans.PointsBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
-        <!--        <managed-property>-->
-        <!--            <property-name>cookie</property-name>-->
-        <!--            <value>#{}</value>-->
-        <!--        </managed-property>-->
-    </managed-bean>
-    <managed-bean>
-        <managed-bean-name>point</managed-bean-name>
-        <managed-bean-class>app.beans.PointBean</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
 </faces-config>

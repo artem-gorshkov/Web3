@@ -4,32 +4,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ace="http://www.icefaces.org/icefaces/components">
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF8"/>
     <title>Lab3</title>
     <h:outputStylesheet library="css" name="reset.css"/>
     <h:outputStylesheet library="css" name="style.css"/>
-    <script type="text/javascript">
-        window.onload = function () {
-            let now = new Date();
-            let clock = document.getElementById("time");
-            clock.innerHTML = now.toLocaleTimeString();
-            setInterval(function () {
-                now = new Date();
-                clock.innerHTML = now.toLocaleTimeString();
-            }, 5000);
-        };
-    </script>
+    <h:outputScript library="javascript" name="time.js" target="head"/>
 </h:head>
-<h:body style="background: url('/resources/image/background.png') white; text-align: center; align-items: center; margin-top: 3%">
+<h:body id="body">
     <div class="Header bold">
         <h1>Лабораторная работа №3 по <span class="Pip"> Веб-программированию</span></h1>
         <h2>Вариант №35253</h2>
         <h3>Выполнил: Горшков Артем Владимирович</h3>
         <h4>Группа: P3211</h4>
     </div>
-    <div id="time" style="font-family: Chandas, serif; font-size: 26pt; color: #45688E; margin-top: 3%"></div>
+    <div id="time"></div>
     <h:button style="margin-top: 3%" outcome="goMainPage" value="Перейти на основную страницу"/>
 </h:body>
 </html>

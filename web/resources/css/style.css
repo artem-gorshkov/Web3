@@ -1,9 +1,4 @@
-.answer td {
-    border: 2px solid black;
-    text-align: center;
-    font-family: monospace;
-    font-size: 14pt;
-}
+
 
 .Pip:before {
     text-decoration: line-through;
@@ -47,13 +42,51 @@
 }
 
 .button {
-    background-color: transparent; color: black;
+    background-color: transparent;
+    color: black;
 }
 
 .active {
     color: #45688E;
 }
+
 .error {
     font-family: monospace;
     color: red;
+}
+
+#body {
+    background: url('/resources/image/background.png') white;
+    text-align: center;
+    align-items: center;
+    margin-top: 2%
+}
+
+#time {
+    font-family: Chandas, serif;
+    font-size: 26pt;
+    color: #45688E;
+    margin-top: 3%
+}
+
+#table {
+    width: 60%;
+    table-layout: auto;
+    margin: 2% auto;
+    background: #5E81A8;
+}
+
+#table td, th {
+    border: 2px solid black;
+    text-align: center;
+    font-family: monospace;
+    font-size: 14pt;
+}
+
+#history {
+    /*display: none;*/
+}
+
+#form * {
+    margin: auto;
 }

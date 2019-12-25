@@ -35,15 +35,45 @@
             onclick="clickOnCanv()"/>
     <div id="checkedR"><br/><br/></div>
     <h:form id="form">
-        <h:selectOneRadio id="r" value="#{points.r}"
-                          required="true" requiredMessage="Укажите R"
-                          onchange="newRad()">
-            <f:selectItem itemValue="1" itemLabel="1"/>
-            <f:selectItem itemValue="1.5" itemLabel="1.5"/>
-            <f:selectItem itemValue="2" itemLabel="2"/>
-            <f:selectItem itemValue="2.5" itemLabel="2.5"/>
-            <f:selectItem itemValue="3" itemLabel="3"/>
-        </h:selectOneRadio>
+        <h:panelGrid columns="2" styleClass="centeredPanelWithBorderSpacingAndLeftJustifiedText"
+                     style="width: 300px; margin: 1% auto; font-size: 14pt; color: #45688E;">
+            <h:outputLabel for="x" value="X:"/>
+            <ace:sliderEntry
+                    id="x"
+                    axis="x"
+                    clickableRail="false"
+                    length="200"
+                    min="-4"
+                    max="4"
+                    stepPercent="1.25f"
+                    value="#{points.x}"
+            />
+            <h:outputLabel for="y" value="Y:"/>
+            <h:inputText id="y" value="#{points.y}" required="true"
+                         requiredMessage="Укажите Y"
+                         validatorMessage="Y должен быть в диапазоне (-3;3)">
+                <f:validateDoubleRange minimum="-3" maximum="3"/>
+            </h:inputText>
+            <h:outputLabel for="r" value="R:"/>
+            <h:selectOneRadio id="r" value="#{points.r}"
+                              required="true" requiredMessage="Укажите R"
+                              onchange="newRad()">
+                <f:selectItem itemValue="1" itemLabel="1"/>
+                <f:selectItem itemValue="1.5" itemLabel="1.5"/>
+                <f:selectItem itemValue="2" itemLabel="2"/>
+                <f:selectItem itemValue="2.5" itemLabel="2.5"/>
+                <f:selectItem itemValue="3" itemLabel="3"/>
+            </h:selectOneRadio>
+            <h:button outcome="goBack" value="Вернуться"/>
+            <h:commandButton action="#{points.addPoint}" value="Отправить" type="submit">
+                <f:ajax event="click" execute="@form" render="table history"/>
+            </h:commandButton>
+        </h:panelGrid>
+        <h:panelGroup>
+            <h:message for="x" errorClass="error"/>
+            <h:message for="y" errorClass="error"/>
+            <h:message for="r" errorClass="error"/>
+        </h:panelGroup>
     </h:form>
     <h:dataTable id="table" value="#{points.data}" var="point">
         <h:column>

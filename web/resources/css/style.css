@@ -41,10 +41,10 @@
     background: #45688E;
 }
 
-.button {
-    background-color: transparent;
-    color: black;
-}
+/*.button {*/
+/*    background-color: transparent;*/
+/*    color: black;*/
+/*}*/
 
 .active {
     color: #45688E;
@@ -59,7 +59,7 @@
     background: url('/resources/image/background.png') white;
     text-align: center;
     align-items: center;
-    margin-top: 2%
+    margin-top: 1%
 }
 
 #time {
@@ -84,9 +84,18 @@
 }
 
 #history {
-    /*display: none;*/
+    display: none;
 }
 
-#form * {
-    margin: auto;
+#checkedR {
+    font-size: 18pt;
+    color: darkblue;
+}
+
+.centeredPanelWithBorderSpacingAndLeftJustifiedText {
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    border-spacing: 10px;
+    border: 4px double black;
 }

@@ -19,14 +19,13 @@
         <h2>Вариант №35253</h2>
         <h3>Выполнил: Горшков Артем Владимирович</h3>
         <h4>Группа: P3211</h4>
-        <h:button style="margin-top: 1%" outcome="goBack" value="На главную"/>
     </div>
     <h:form id="hiddenForm" style="display: none">
-        <h:inputHidden id="x_canv" value="${points.x}"/>
-        <h:inputHidden id="y_canv" value="${points.y}"/>
-        <h:inputHidden id="r_canv" value="${points.r}"/>
-        <h:commandButton id="submitCanvas" action="#{points.addPoint}">
-            <f:ajax event="click" execute="@form" render="table history"/>
+        <h:inputHidden id="x_canv" value="${canvas.x}"/>
+        <h:inputHidden id="y_canv" value="${canvas.y}"/>
+        <h:inputHidden id="r_canv" value="${canvas.r}"/>
+        <h:commandButton id="submitCanvas" action="#{canvas.addPoint}">
+            <f:ajax event="click" execute="@form" render="table history test"/>
         </h:commandButton>
     </h:form>
     <canvas id="canvas"
@@ -36,26 +35,36 @@
     <div id="checkedR"><br/><br/></div>
     <h:form id="form">
         <h:panelGrid columns="2" styleClass="centeredPanelWithBorderSpacingAndLeftJustifiedText"
-                     style="width: 300px; margin: 1% auto; font-size: 14pt; color: #45688E;">
-            <h:outputLabel for="x" value="X:"/>
-            <ace:sliderEntry
-                    id="x"
-                    axis="x"
-                    clickableRail="false"
-                    length="200"
-                    min="-4"
-                    max="4"
-                    stepPercent="1.25f"
-                    value="#{points.x}"
-            />
+                     style="width: 300px; margin: 1% auto; font-size: 14pt;">
+            <h:outputLabel for="inputX" value="X: "/>
+            <h:panelGrid>
+                <h:panelGrid columns="3" style="border-spacing: 30px;">
+                    <h:outputText value="-4" style="font-weight: bold; margin-right: 10px"/>
+                    <ace:sliderEntry
+                            valueChangeListener="#{form.changeSlider}"
+                            style="margin: 1%;"
+                            id="inputX"
+                            axis="x"
+                            clickableRail="false"
+                            length="200"
+                            min="-40"
+                            max="40"
+                            stepPercent="1.25f"
+                            value="#{form.inputX}">
+                        <ace:ajax event="slideEnd" execute="@this" render="@form"/>
+                    </ace:sliderEntry>
+                    <h:outputText value="4" style="font-weight: bold; margin-left: 10px"/>
+                </h:panelGrid>
+                <h:outputText id="outputX" style="text-align: center; font-weight: bold" value="#{form.outputX}"/>
+            </h:panelGrid>
             <h:outputLabel for="y" value="Y:"/>
-            <h:inputText id="y" value="#{points.y}" required="true"
+            <h:inputText id="y" value="#{form.y}" required="true"
                          requiredMessage="Укажите Y"
                          validatorMessage="Y должен быть в диапазоне (-3;3)">
                 <f:validateDoubleRange minimum="-3" maximum="3"/>
             </h:inputText>
             <h:outputLabel for="r" value="R:"/>
-            <h:selectOneRadio id="r" value="#{points.r}"
+            <h:selectOneRadio id="r" value="#{form.r}"
                               required="true" requiredMessage="Укажите R"
                               onchange="newRad()">
                 <f:selectItem itemValue="1" itemLabel="1"/>
@@ -65,12 +74,12 @@
                 <f:selectItem itemValue="3" itemLabel="3"/>
             </h:selectOneRadio>
             <h:button outcome="goBack" value="Вернуться"/>
-            <h:commandButton action="#{points.addPoint}" value="Отправить" type="submit">
+            <h:commandButton action="#{form.addPoint}" value="Отправить" type="submit" onclick="clickOnForm()">
                 <f:ajax event="click" execute="@form" render="table history"/>
             </h:commandButton>
         </h:panelGrid>
         <h:panelGroup>
-            <h:message for="x" errorClass="error"/>
+            <h:message for="inputX" errorClass="error"/>
             <h:message for="y" errorClass="error"/>
             <h:message for="r" errorClass="error"/>
         </h:panelGroup>

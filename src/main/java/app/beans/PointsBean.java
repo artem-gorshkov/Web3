@@ -3,6 +3,7 @@ package app.beans;
 import app.model.Point;
 
 import javax.annotation.Resource;
+import javax.faces.annotation.ManagedProperty;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.naming.Context;
@@ -21,17 +22,10 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@ManagedBean(name = "points")
-@SessionScoped
+
 public class PointsBean implements Serializable {
     private Deque<Point> data;
     private int size;
-
-    private double x;
-    private double r;
-    private BigDecimal y;
-    private String result;
-    private String unique;
 
     @Resource(name = "datasources/oracle")
     private DataSource ds;
@@ -41,7 +35,6 @@ public class PointsBean implements Serializable {
         try {
             Context context = new InitialContext();
             ds = (DataSource) context.lookup("java:jboss/datasources/oracle");
-//            updatePoints();
         } catch (NamingException e) {
             e.printStackTrace();
 //        } catch (SQLException ee) {
@@ -49,43 +42,14 @@ public class PointsBean implements Serializable {
         }
     }
 
-    public void addPoint() throws SQLException {
-        double Y = Double.parseDouble(y.toString().substring(0, Math.min(10, y.toString().length()))); //for compare with x and r
-        if (x < 0) {
-            if (Y >= 0) {
-                if (Y < x + r / 2) {
-                    result = "В зоне";
-                } else {
-                    result = " Не в зоне";
-                }
-            } else {
-                if (Math.pow(x, 2) + Math.pow(Y, 2) <= Math.pow(r / 2, 2)) {
-                    result = "В зоне";
-                } else {
-                    result = " Не в зоне";
-                }
-            }
-        } else {
-            if (Y > 0) {
-                result = " Не в зоне";
-            } else {
-                if (x <= r && Y >= -r / 2) {
-                    result = "В зоне";
-                } else {
-                    result = " Не в зоне";
-                }
-            }
-        }
-        unique = UUID.randomUUID().toString();
-        Point point = new Point(x, y, r, result, unique);
+    public void addPoint(Point point) {
         try {
             Point last = data.getFirst();
-            if (!last.equals(point)) //add if not reload page
+            if (!last.equals(point)) {  //add if not reload page
                 data.addFirst(point);
+            }
         } catch (NoSuchElementException e) {
             data.addFirst(point);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
         }
 //
 //        if (ds == null) throw new SQLException("No data source");
@@ -159,45 +123,4 @@ public class PointsBean implements Serializable {
     public void setSize(int size) {
         this.size = size;
     }
-
-    public double getX() {
-        return x;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public double getR() {
-        return r;
-    }
-
-    public void setR(double r) {
-        this.r = r;
-    }
-
-    public BigDecimal getY() {
-        return y;
-    }
-
-    public void setY(BigDecimal y) {
-        this.y = y;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
-    }
-
-    public String getUnique() {
-        return unique;
-    }
-
-    public void setUnique(String unique) {
-        this.unique = unique;
-    }
-
 }

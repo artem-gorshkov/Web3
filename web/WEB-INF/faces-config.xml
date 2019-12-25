@@ -22,4 +22,24 @@
         <managed-bean-class>app.beans.PointsBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>canvas</managed-bean-name>
+        <managed-bean-class>app.beans.CanvasBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+
+        <managed-property>
+            <property-name>points</property-name>
+            <value>#{points}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>form</managed-bean-name>
+        <managed-bean-class>app.beans.FormBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+
+        <managed-property>
+            <property-name>points</property-name>
+            <value>#{points}</value>
+        </managed-property>
+    </managed-bean>
 </faces-config>

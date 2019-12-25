@@ -8,15 +8,15 @@ import java.util.Objects;
 
 public class Point implements Serializable, Cloneable {
 
-    private double x;
-    private double r;
+    private Double x;
+    private Double r;
     private BigDecimal y;
     private String result;
     private String unique;
 
     public Point() { }
 
-    public Point(double x, BigDecimal y, double r, String result, String unique) {
+    public Point(Double x, BigDecimal y, Double r, String result, String unique) {
         this.x = x;
         this.y = y;
         this.r = r;
@@ -42,19 +42,19 @@ public class Point implements Serializable, Cloneable {
         return Objects.hash(x, y, r, result, unique);
     }
 
-    public double getX() {
+    public Double getX() {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(Double x) {
         this.x = x;
     }
 
-    public double getR() {
+    public Double getR() {
         return r;
     }
 
-    public void setR(double r) {
+    public void setR(Double r) {
         this.r = r;
     }
 

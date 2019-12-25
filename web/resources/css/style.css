@@ -90,12 +90,13 @@
 #checkedR {
     font-size: 18pt;
     color: darkblue;
+    font-family: monospace;
 }
 
 .centeredPanelWithBorderSpacingAndLeftJustifiedText {
     text-align: left;
     margin-left: auto;
     margin-right: auto;
-    border-spacing: 10px;
-    border: 4px double black;
+    border-spacing: 100px;
+    border: 4px solid black;
 }

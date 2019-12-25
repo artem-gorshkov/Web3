@@ -104,9 +104,9 @@ function addDots(r, history) {
     let rad = height / 40;
     let rad2 = height / 80;
     Array.prototype.forEach.call(history, function (point) {
-        ctx.fillStyle = setColor(point, r);
         let x = width / 2 + point['x'] * Math.round(width / 3) / Number(r);
         let y = height / 2 - point['y'] * Math.round(height / 3) / Number(r);
+        ctx.fillStyle = setColor(point, r);
         ctx.beginPath();
         ctx.arc(x, y, 3, 0, 2 * Math.PI);
         ctx.fill();
@@ -144,6 +144,17 @@ function clickOnCanv() {
         hiddenForm[hiddenForm.id + ":r_canv"].value = curr_R;
         hiddenForm[hiddenForm.id + ":submitCanvas"].click();
     }
+}
+
+function clickOnForm() {
+    const cordX = document.getElementById(form.id + ":outputX").innerHTML;
+    const cordY = form[form.id + ":y"].value;
+    const x = width / 2 + cordX * Math.round(width / 3) / Number(curr_R);
+    const y = height / 2 - cordY * Math.round(height / 3) / Number(curr_R);
+    ctx.fillStyle = setColor({"x": cordX, "y": cordY}, curr_R);
+    ctx.beginPath();
+    ctx.arc(x, y, 3, 0, 2 * Math.PI);
+    ctx.fill();
 }
 
 {

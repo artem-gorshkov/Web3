@@ -19,7 +19,6 @@ public class PointsBean implements Serializable {
     private Deque<Point> data;
     private int size;
 
-    @Resource(name = "datasources/oracle")
     private DataSource ds;
 
     {
@@ -56,7 +55,10 @@ public class PointsBean implements Serializable {
                     newpoint.setDouble(2, point.getX());
                     newpoint.setBigDecimal(3, point.getY());
                     newpoint.setDouble(4, point.getR());
-                    newpoint.setString(5, point.getResult());
+                    if (point.getResult().equals("В зоне"))
+                        newpoint.setString(5, "Y");
+                    else
+                        newpoint.setString(5, "N");
                     newpoint.executeUpdate();
                     conn.commit();
                     committed = true;

@@ -5,7 +5,9 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ace="http://www.icefaces.org/icefaces/components">
+      xmlns:ace="http://www.icefaces.org/icefaces/components"
+      xmlns:p="http://primefaces.org/ui"
+      >
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF8"/>
     <title>Lab3</title>
@@ -76,8 +78,10 @@
         </h:panelGrid>
         <h:panelGroup style="margin: auto">
         <h:button style="margin-right: 15px" outcome="goBack" value="Вернуться"/>
-        <h:commandButton action="#{form.addPoint}" value="Отправить" type="submit">
-            <ace:ajax onComplete="console.log('complete');repaintPlot();" event="click" execute="@form" render="table history @form"/>
+        <h:commandButton action="#{form.addPoint}" value="Отправить" type="submit" onclick="setInterval(repaintPlot, 50)">
+            <f:ajax event="click" execute="@form" render="table history @form"/>
+<!--            <ace:ajax event="click" execute="@form" render="table history @form"/>-->
+<!--            <p:ajax event="click" process="@form" update="table history @form" oncomplete="repaintPlot();"/>-->
         </h:commandButton>
         </h:panelGroup>
     </h:form>

@@ -148,7 +148,13 @@ function clickOnCanv() {
 
 function repaintPlot() {
     paintPlot();
-    addDots(Number(curr_R), JSON.parse(document.getElementById("history").innerHTML));
+    Array.prototype.forEach.call(form[form.id + ":r"], function (elem) {
+        if (elem.checked === true) {
+            curr_R = elem.value;
+        }
+    });
+    if (curr_R != null)
+        addDots(Number(curr_R), JSON.parse(document.getElementById("history").innerHTML));
 }
 
 {

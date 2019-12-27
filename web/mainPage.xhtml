@@ -14,12 +14,6 @@
     <h:outputScript library="javascript" name="canvasEvent.js" target="body"/>
 </h:head>
 <h:body id="body">
-    <div class="Header bold">
-        <h1>Лабораторная работа №3 по <span class="Pip"> Веб-программированию</span></h1>
-        <h2>Вариант №35253</h2>
-        <h3>Выполнил: Горшков Артем Владимирович</h3>
-        <h4>Группа: P3211</h4>
-    </div>
     <h:form id="hiddenForm" style="display: none">
         <h:inputHidden id="x_canv" value="${canvas.x}"/>
         <h:inputHidden id="y_canv" value="${canvas.y}"/>
@@ -32,14 +26,18 @@
             width="500" height="500"
             style="margin: 1% auto;"
             onclick="clickOnCanv()"/>
-    <div id="checkedR"><br/><br/></div>
+    <div class="error" id="checkedR"><br/><br/></div>
     <h:form id="form">
-        <h:panelGrid columns="2" styleClass="centeredPanelWithBorderSpacingAndLeftJustifiedText"
-                     style="width: 300px; margin: 1% auto; font-size: 14pt;">
+        <h:panelGrid styleClass="tdCenter" style="margin: auto">
+            <h:message for="inputX" styleClass="error" showSummary="true" showDetail="false"/>
+            <h:message for="y" styleClass="error" showSummary="true" showDetail="false"/>
+            <h:message for="r" styleClass="error" showSummary="true" showDetail="false"/>
+        </h:panelGrid>
+        <h:panelGrid columns="2" styleClass="fancyTable">
             <h:outputLabel for="inputX" value="X: "/>
-            <h:panelGrid>
-                <h:panelGrid columns="3" style="border-spacing: 30px;">
-                    <h:outputText value="-4" style="font-weight: bold; margin-right: 10px"/>
+            <h:panelGrid styleClass="tdCenter">
+                <h:panelGrid columns="3">
+                    <h:outputText value="-4" style="margin-right: 10px"/>
                     <ace:sliderEntry
                             valueChangeListener="#{form.changeSlider}"
                             style="margin: 1%;"
@@ -53,35 +51,34 @@
                             value="#{form.inputX}">
                         <ace:ajax event="slideEnd" execute="@this" render="@form"/>
                     </ace:sliderEntry>
-                    <h:outputText value="4" style="font-weight: bold; margin-left: 10px"/>
+                    <h:outputText value="4" style="margin-left: 10px"/>
                 </h:panelGrid>
-                <h:outputText id="outputX" style="text-align: center; font-weight: bold" value="#{form.outputX}"/>
+                <h:outputText id="outputX" style="font-weight: bold" value="#{form.outputX}"/>
             </h:panelGrid>
             <h:outputLabel for="y" value="Y:"/>
             <h:inputText id="y" value="#{form.y}" required="true"
-                         requiredMessage="Укажите Y"
-                         validatorMessage="Y должен быть в диапазоне (-3;3)">
-                <f:validateDoubleRange minimum="-3" maximum="3"/>
-            </h:inputText>
+                         converter="Web3.BigDecimal"
+                         converterMessage="Y должен быть числом"
+                         validator="#{validator.validateY}"
+                         validatorMessage="Y должен быть в диапазоне (-3;3)"
+                         requiredMessage="Укажите Y"/>
             <h:outputLabel for="r" value="R:"/>
             <h:selectOneRadio id="r" value="#{form.r}"
-                              required="true" requiredMessage="Укажите R"
-                              onchange="newRad()">
+                              required="true"
+                              requiredMessage="Укажите R"
+                              onclick="newRad()">
                 <f:selectItem itemValue="1" itemLabel="1"/>
                 <f:selectItem itemValue="1.5" itemLabel="1.5"/>
                 <f:selectItem itemValue="2" itemLabel="2"/>
                 <f:selectItem itemValue="2.5" itemLabel="2.5"/>
                 <f:selectItem itemValue="3" itemLabel="3"/>
             </h:selectOneRadio>
-            <h:button outcome="goBack" value="Вернуться"/>
-            <h:commandButton action="#{form.addPoint}" value="Отправить" type="submit" onclick="clickOnForm()">
-                <f:ajax event="click" execute="@form" render="table history"/>
-            </h:commandButton>
         </h:panelGrid>
-        <h:panelGroup>
-            <h:message for="inputX" errorClass="error"/>
-            <h:message for="y" errorClass="error"/>
-            <h:message for="r" errorClass="error"/>
+        <h:panelGroup style="margin: auto">
+        <h:button style="margin-right: 15px" outcome="goBack" value="Вернуться"/>
+        <h:commandButton action="#{form.addPoint}" value="Отправить" type="submit">
+            <ace:ajax onComplete="console.log('complete');repaintPlot();" event="click" execute="@form" render="table history @form"/>
+        </h:commandButton>
         </h:panelGroup>
     </h:form>
     <h:dataTable id="table" value="#{points.data}" var="point">
@@ -92,7 +89,7 @@
 
         <h:column>
             <f:facet name="header">Y</f:facet>
-            #{point.y}
+            <span style="word-break: break-all;">#{point.y}</span>
         </h:column>
 
         <h:column>

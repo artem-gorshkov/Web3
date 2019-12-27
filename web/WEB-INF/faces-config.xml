@@ -3,6 +3,10 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
     http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    <converter>
+        <converter-id>Web3.BigDecimal</converter-id>
+        <converter-class>app.converters.BigDecimalConverter</converter-class>
+    </converter>
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
@@ -17,6 +21,11 @@
             <to-view-id>/index.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    <managed-bean>
+        <managed-bean-name>validator</managed-bean-name>
+        <managed-bean-class>app.beans.ValidatorBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
     <managed-bean>
         <managed-bean-name>points</managed-bean-name>
         <managed-bean-class>app.beans.PointsBean</managed-bean-class>

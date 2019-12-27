@@ -6,6 +6,7 @@
 }
 
 .Header {
+    font-weight: bold;
     font-family: monospace;
     color: #45688E;
 }
@@ -33,33 +34,10 @@
     color: cornflowerblue;
 }
 
-.bold {
-    font-weight: bold;
-}
-
-.Blue:focus-within {
-    background: #45688E;
-}
-
-/*.button {*/
-/*    background-color: transparent;*/
-/*    color: black;*/
-/*}*/
-
-.active {
-    color: #45688E;
-}
-
-.error {
-    font-family: monospace;
-    color: red;
-}
-
 #body {
     background: url('/resources/image/background.png') white;
     text-align: center;
-    align-items: center;
-    margin-top: 1%
+    margin: 1% auto 0 auto;
 }
 
 #time {
@@ -87,16 +65,26 @@
     display: none;
 }
 
-#checkedR {
-    font-size: 18pt;
-    color: darkblue;
+.fancyTable {
+    border: 2px solid black;
+    width: 300px;
+    margin: 1% auto;
+    font-size: 14pt;
+}
+
+.fancyTable td {
+    padding: 5px;
     font-family: monospace;
 }
 
-.centeredPanelWithBorderSpacingAndLeftJustifiedText {
-    text-align: left;
-    margin-left: auto;
-    margin-right: auto;
-    border-spacing: 100px;
-    border: 4px solid black;
+.error {
+    font-size: 14pt;
+    font-family: monospace;
+    color: red;
+    text-align: center;
+}
+
+.tdCenter td,th {
+    text-align: center;
+    padding: 2px;
 }

@@ -73,9 +73,9 @@ function paintPlot() {
 function setColor(point, r) {
     const x = point['x'];
     const y = point['y'];
-    if (x < 0) {
+    if (x <= 0) {
         if (y >= 0) {
-            if (y < x + r / 2) {
+            if (y <= x + r / 2) {
                 return red;
             } else {
                 return blue;
@@ -146,20 +146,16 @@ function clickOnCanv() {
     }
 }
 
-function clickOnForm() {
-    const cordX = document.getElementById(form.id + ":outputX").innerHTML;
-    const cordY = form[form.id + ":y"].value;
-    const x = width / 2 + cordX * Math.round(width / 3) / Number(curr_R);
-    const y = height / 2 - cordY * Math.round(height / 3) / Number(curr_R);
-    ctx.fillStyle = setColor({"x": cordX, "y": cordY}, curr_R);
-    ctx.beginPath();
-    ctx.arc(x, y, 3, 0, 2 * Math.PI);
-    ctx.fill();
+function repaintPlot() {
+    paintPlot();
+    addDots(Number(curr_R), JSON.parse(document.getElementById("history").innerHTML));
 }
 
 {
-    paintPlot(); // хорошая функция
-    window.onload = function () {
-        form.reset(); //drop R on new page
-    };
+    Array.prototype.forEach.call(form[form.id + ":r"], function (elem) {
+        if (elem.checked === true) {
+            curr_R = elem.value;
+        }
+    });
+    repaintPlot();
 }

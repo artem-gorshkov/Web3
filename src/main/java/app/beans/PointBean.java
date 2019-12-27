@@ -8,9 +8,9 @@ public interface PointBean {
     void addPoint();
     default String findResult(Double x, BigDecimal y, Double r) {
         double Y = Double.parseDouble(y.toString()); //for compare with x and r
-        if (x < 0) {
+        if (x <= 0) {
             if (Y >= 0) {
-                if (Y < x + r / 2) {
+                if (Y <= x + r / 2) {
                     return in;
                 } else {
                     return out;

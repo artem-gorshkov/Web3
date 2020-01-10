@@ -2,7 +2,6 @@ package app.beans;
 
 import app.model.Point;
 
-import javax.annotation.Resource;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;

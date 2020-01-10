@@ -117,12 +117,10 @@ let curr_R = null;
 
 function newRad() {
     document.getElementById("checkedR").innerHTML = "<br><br>";
-    paintPlot();
-    curr_R = event.currentTarget.value;
-    addDots(Number(curr_R), JSON.parse(document.getElementById("history").innerHTML));
+    repaintPlot();
 }
 
-function clickOnCanv() {
+function clickOnCanv(event) {
     if (curr_R == null) {
         document.getElementById("checkedR").innerHTML = errorText; //click with not choosen R
     } else {
@@ -158,10 +156,6 @@ function repaintPlot() {
 }
 
 {
-    Array.prototype.forEach.call(form[form.id + ":r"], function (elem) {
-        if (elem.checked === true) {
-            curr_R = elem.value;
-        }
-    });
+    document.getElementById("canvas").onclick = clickOnCanv;
     repaintPlot();
 }

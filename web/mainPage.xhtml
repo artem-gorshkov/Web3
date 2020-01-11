@@ -51,6 +51,7 @@
                             max="40"
                             stepPercent="1.25f"
                             value="#{form.inputX}">
+                        <ace:ajax event="slideEnd" execute="@this" render="@form"/>
                     </ace:sliderEntry>
                     <h:outputText value="4" style="margin-left: 10px"/>
                 </h:panelGrid>

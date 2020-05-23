@@ -126,3 +126,6 @@ hs_err_pid*
 /.idea
 *.iml
 music
+alt
+alt_build
+build

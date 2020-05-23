@@ -1,0 +1,84 @@
+<project name="Web3" default="build" basedir=".">
+
+    <property file="build.properties"/>
+
+    <path id="classpath">
+        <fileset dir="${src.lib.dir}" includes="*.jar"/>
+        <fileset dir="${main.dir}" includes="*.java"/>
+    </path>
+
+    <path id="classpath.test">
+        <pathelement location="${junit}"/>
+        <pathelement location="${hamcrest}"/>
+        <pathelement location="${classes.dir}"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${main.dir}" destdir="${classes.dir}" classpathref="classpath"
+               includeantruntime="false"/>
+    </target>
+
+    <target name="build" depends="compile">
+        <copy todir="${war_exploded.dir}">
+            <fileset dir="${web.dir}"/>
+        </copy>
+
+        <copy todir="${lib.dir}">
+            <fileset dir="${src.lib.dir}"/>
+        </copy>
+
+        <war destfile="${build.dir}/${project.name}.war">
+            <fileset dir="${war_exploded.dir}"/>
+            <manifest>
+                <attribute name="Version" value="${version}"/>
+                <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+        </war>
+        <antcall target="music"/>
+    </target>
+
+    <target name="music">
+        <sound>
+            <success source="${music1}"/>
+            <fail source="${music2}"/>
+        </sound>
+    </target>
+
+    <target name="test" depends="build">
+        <mkdir dir="${test.classes.dir}"/>
+        <javac destdir="${test.classes.dir}" srcdir="${test.dir}" includeantruntime="false"
+               classpathref="classpath.test"/>
+        <junit printsummary="on" haltonfailure="yes">
+            <classpath>
+                <path refid="classpath.test"/>
+                <pathelement location="${test.classes.dir}"/>
+            </classpath>
+            <formatter type="plain" usefile="false"/>
+            <batchtest>
+                <fileset dir="${test.dir}" includes="**/*Test*.java"/>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="alt">
+        <copy todir="${src_old.dir}">
+            <fileset dir="${src.dir}"/>
+        </copy>
+        <replace dir="${src.dir}" token="Point" value="Dot"/>
+        <replace dir="${src.dir}" token="point" value="dot"/>
+        <move file="${alt.point}" tofile="${alt.app.dir}/model/Dot.java"/>
+        <move file="${alt.pointBean}" tofile="${alt.app.dir}/beans/DotBean.java"/>
+        <move file="${alt.pointsBean}" tofile="${alt.app.dir}/beans/DotsBean.java"/>
+        <antcall target="build"/>
+        <delete dir="${src.dir}"/>
+        <copy todir="${src.dir}">
+            <fileset dir="${src_old.dir}"/>
+        </copy>
+        <delete dir="${src_old.dir}"/>
+    </target>
+</project>

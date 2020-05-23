@@ -22,7 +22,7 @@ public class FormBean implements Serializable, PointBean {
     }
 
     public void addPoint() {
-        result = findResult(outputX,y,r);
+        result = findResult(outputX,y,r)?in:out;
         unique = UUID.randomUUID().toString();
         Point point = new Point(outputX, y, r, result, unique);
         points.addPoint(point);

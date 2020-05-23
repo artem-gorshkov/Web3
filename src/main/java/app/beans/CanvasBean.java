@@ -16,7 +16,7 @@ public class CanvasBean implements Serializable, PointBean {
     private PointsBean points;
 
     public void addPoint() {
-        result = findResult(x,y,r);
+        result = findResult(x,y,r)?in:out;
         unique = UUID.randomUUID().toString();
         Point point = new Point(x, y, r, result, unique);
         points.addPoint(point);

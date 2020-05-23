@@ -6,31 +6,19 @@ public interface PointBean {
     String in ="В зоне";
     String out ="Не в зоне";
     void addPoint();
-    default String findResult(Double x, BigDecimal y, Double r) {
+    default boolean findResult(Double x, BigDecimal y, Double r) {
         double Y = Double.parseDouble(y.toString()); //for compare with x and r
         if (x <= 0) {
             if (Y >= 0) {
-                if (Y <= x + r / 2) {
-                    return in;
-                } else {
-                    return out;
-                }
+                return Y <= x + r / 2;
             } else {
-                if (Math.pow(x, 2) + Math.pow(Y, 2) <= Math.pow(r / 2, 2)) {
-                    return in;
-                } else {
-                    return out;
-                }
+                return Math.pow(x, 2) + Math.pow(Y, 2) <= Math.pow(r / 2, 2);
             }
         } else {
             if (Y > 0) {
-                return out;
+                return false;
             } else {
-                if (x <= r && Y >= -r / 2) {
-                    return in;
-                } else {
-                    return out;
-                }
+                return x <= r && Y >= -r / 2;
             }
         }
     }

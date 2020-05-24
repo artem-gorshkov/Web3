@@ -1,7 +1,6 @@
 package app;
 
 import app.beans.CanvasBean;
-import app.beans.PointBean;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -24,7 +23,7 @@ public class CanvasTests {
     }
 
     @Test
-    public void quater1test1_1() {
+    public void quater1test1() {
         double x = 0d;
         BigDecimal y = newY("0");
         double r = 1;
@@ -33,7 +32,7 @@ public class CanvasTests {
     }
 
     @Test
-    public void quater1test1_2() {
+    public void quater1test2() {
         double x = 1d;
         BigDecimal y = newY("0");
         double r = 2;
@@ -42,7 +41,7 @@ public class CanvasTests {
     }
 
     @Test
-    public void quater1test1_3() {
+    public void quater1test3() {
         double x = 1.5d;
         BigDecimal y = newY("0");
         double r = 1.5;
@@ -51,16 +50,43 @@ public class CanvasTests {
     }
 
     @Test
-    public void quater1test2_1() {
-        double x = 0d;
-        BigDecimal y = newY(0d);
+    public void quater1test4() {
+        double x = 1;
+        BigDecimal y = newY("1.5");
+        double r = 2;
+        boolean ans = bean.findResult(x, y, r);
+        assertFalse(MSG, ans);
+    }
+
+    @Test
+    public void quater1test5() {
+        double x = 0;
+        BigDecimal y = newY("1.5");
+        double r = 1.5;
+        boolean ans = bean.findResult(x, y, r);
+        assertFalse(MSG, ans);
+    }
+
+    @Test
+    public void quater1test6() {
+        double x = 0.7;
+        BigDecimal y = newY(0.3);
         double r = 1;
+        boolean ans = bean.findResult(x, y, r);
+        assertFalse(MSG, ans);
+    }
+
+    @Test
+    public void quater2test1() {
+        double x = -0.5;
+        BigDecimal y = newY(1d);
+        double r = 3;
         boolean ans = bean.findResult(x, y, r);
         assertTrue(MSG, ans);
     }
 
     @Test
-    public void quater1test2_2() {
+    public void quater2test2() {
         double x = 0d;
         BigDecimal y = newY(1d);
         double r = 2;
@@ -69,21 +95,86 @@ public class CanvasTests {
     }
 
     @Test
-    public void quater1test2_3() {
-        double x = 2.5d;
-        BigDecimal y = newY(0d);
+    public void quater2test3() {
+        double x = -1.25;
+        BigDecimal y = newY(0);
         double r = 2.5;
         boolean ans = bean.findResult(x, y, r);
         assertTrue(MSG, ans);
     }
 
     @Test
-    public void quater1test3() {
-        double x = 0.7;
-        BigDecimal y = newY(0.3);
+    public void quater2test4() {
+        double x = -0.5;
+        BigDecimal y = newY(0.5);
+        double r = 3;
+        boolean ans = bean.findResult(x, y, r);
+        assertTrue(MSG, ans);
+    }
+
+    @Test
+    public void quater2test5() {
+        double x = -1;
+        BigDecimal y = newY(0.5);
+        double r = 3;
+        boolean ans = bean.findResult(x, y, r);
+        assertTrue(MSG, ans);
+    }
+
+
+    @Test
+    public void quater2test6() {
+        double x = -1;
+        BigDecimal y = newY(0.6);
+        double r = 3;
+        boolean ans = bean.findResult(x, y, r);
+        assertFalse(MSG, ans);
+    }
+
+    @Test
+    public void quater2test7() {
+        double x = -2;
+        BigDecimal y = newY(3);
+        double r = 2;
+        boolean ans = bean.findResult(x, y, r);
+        assertFalse(MSG, ans);
+    }
+
+    @Test
+    public void quater3test1() {
+        double x = -1;
+        BigDecimal y = newY(-1);
+        double r = 2;
+        boolean ans = bean.findResult(x + EPS, y, r);
+        assertFalse(MSG, ans);
+    }
+
+
+    @Test
+    public void quater3test2() {
+        double x = -1.1;
+        BigDecimal y = newY(-1.3);
         double r = 1;
         boolean ans = bean.findResult(x, y, r);
         assertFalse(MSG, ans);
+    }
+
+    @Test
+    public void quater3test3() {
+        double x = -1;
+        BigDecimal y = newY(-1);
+        double r = 3;
+        boolean ans = bean.findResult(x, y, r);
+        assertTrue(MSG, ans);
+    }
+
+    @Test
+    public void quater3test4() {
+        double x = -0.5;
+        BigDecimal y = newY(-1.41);
+        double r = 3;
+        boolean ans = bean.findResult(x, y, r);
+        assertTrue(MSG, ans);
     }
 
     @Test
@@ -107,68 +198,35 @@ public class CanvasTests {
     @Test
     public void quater4test3() {
         double x = 3;
-        BigDecimal y = newY(6d);
+        BigDecimal y = newY(-6d);
         double r = 1;
         boolean ans = bean.findResult(x, y, r);
         assertFalse(MSG, ans);
     }
 
-
     @Test
     public void quater4test4() {
-        BigDecimal y = newY(1.6);
+        double x = 1d;
+        BigDecimal y = newY(-1.6);
+        double r = 1.5d;
+        boolean ans = bean.findResult(x, y, r);
+        assertFalse(MSG, ans);
+    }
+
+    @Test
+    public void quater4test5() {
+        BigDecimal y = newY(-1.6);
         double x = 1d;
         double r = 1.5d;
         boolean ans = bean.findResult(x, y, r);
         assertFalse(MSG, ans);
-        x += r / 2;
-    }
-
-
-    @Test
-    public void quater2test1() {
-        double x = -1;
-        BigDecimal y = newY(0.5);
-        double r = 3;
-        boolean ans = bean.findResult(x, y, r);
-        assertTrue(MSG, ans);
-    }
-
-
-    @Test
-    public void quater2test2() {
-        double x = -1;
-        BigDecimal y = newY(0.6);
-        double r = 3;
-        boolean ans = bean.findResult(x, y, r);
-        assertFalse(MSG, ans);
-    }
-
-
-    @Test
-    public void quater3test1() {
-        double x = -1.123;
-        BigDecimal y = newY(-0.77879);
-        double r = 3.5;
-        boolean ans = bean.findResult(x + EPS, y, r);
-        assertTrue(MSG, ans);
-    }
-
-
-    @Test
-    public void quater3test2() {
-        double x = -1.1;
-        BigDecimal y = newY(-1.3);
-        double r = 1;
-        boolean ans = bean.findResult(x, y, r);
-        assertFalse(MSG, ans);
     }
 
     @Test
-    public void quater3test3() {
-        double x = -1;
-        BigDecimal y = newY(-1);
-        double r = 3;
+    public void quater4test6() {
+        BigDecimal y = newY(-0.75);
+        double x = 1.5d;
+        double r = 1.5d;
         boolean ans = bean.findResult(x, y, r);
         assertTrue(MSG, ans);
     }
